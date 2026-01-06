@@ -229,7 +229,17 @@ if df is not None:
                 X_final, y_raw, test_size, random_state, tipo_escalado, modelos_user, poly_degree
             )
             
+            # Tabla de Resultados
             st.dataframe(res_df.drop(columns="Obj").style.background_gradient(cmap="Greens", subset=["R2 Score (%)"]))
+            
+            # --- AGREGADO: GRÁFICO DE BARRAS COMPARATIVO ---
+            st.divider()
+            st.subheader("📊 Comparativa Visual de Rendimiento (R2 Score)")
+            
+            # Preparamos datos para el gráfico (Algoritmo en Eje Y, Score en Eje X)
+            chart_data = res_df.set_index("Algoritmo")[["R2 Score (%)"]]
+            st.bar_chart(chart_data)
+            # -----------------------------------------------
             
             best = res_df.iloc[0]
             st.session_state['modelo'] = best['Obj']
